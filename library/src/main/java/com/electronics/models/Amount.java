@@ -1,0 +1,6 @@
+package com.electronics.models;
+
+public class Amount {
+    public String currency;
+    public double value;
+}
