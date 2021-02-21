@@ -13,4 +13,8 @@ export class PaymentService {
   getPayments(): Observable<Payment[]> {
     return this.http.get<Payment[]>('http://localhost:8080/payments')
   }
+
+  getPayment(id: string): Observable<Payment> {
+    return this.http.get<Payment>('http://localhost:8080/payments/'+ id)
+  }
 }

@@ -37,6 +37,17 @@ public class Mollie {
         }
     }
 
+    public Payment findPayment(String id) throws MollieException {
+        try {
+            String json = get("/payments/"+ id);
+            ObjectMapper objectMapper = new ObjectMapper();
+            Payment payment = objectMapper.readValue(json, Payment.class);
+            return payment;
+        } catch (IOException e) {
+            throw new MollieException(e);
+        }
+    }
+
     private String get(String path) throws IOException {
         String url = MOLLIE_ENDPOINT + path;
 

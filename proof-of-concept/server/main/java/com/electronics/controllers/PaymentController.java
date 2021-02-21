@@ -4,6 +4,7 @@ import com.electronics.exceptions.MollieException;
 import com.electronics.models.Payment;
 import com.electronics.services.MollieFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -19,5 +20,10 @@ public class PaymentController {
     @GetMapping("/payments")
     List<Payment> all() throws MollieException {
         return this.mollieFactory.getMollie().getPayments();
+    }
+
+    @GetMapping("/payments/{id}")
+    Payment find(@PathVariable String id) throws MollieException {
+        return this.mollieFactory.getMollie().findPayment(id);
     }
 }
