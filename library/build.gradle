@@ -13,9 +13,6 @@ java {
 
 dependencies {
     compile group: 'org.apache.httpcomponents', name: 'httpclient', version: '4.5.13'
-    compile group: 'org.apache.httpcomponents', name: 'fluent-hc', version: '4.5.13'
-
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.12.1'
-
     implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
 }

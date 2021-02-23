@@ -1,10 +1,21 @@
 package com.electronics;
 
 import com.electronics.exceptions.MollieException;
+import com.electronics.models.CreatePayment;
 import com.electronics.models.Payment;
 import com.electronics.models.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.http.client.fluent.Request;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpResponseException;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.ContentType;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicResponseHandler;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,20 +59,70 @@ public class Mollie {
         }
     }
 
+    public Payment createPayment(CreatePayment createPayment) throws MollieException {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            String body = objectMapper.writeValueAsString(createPayment);
+            String json = post("/payments", body);
+            Payment payment = objectMapper.readValue(json, Payment.class);
+            return payment;
+        } catch (IOException e) {
+            throw new MollieException(e);
+        }
+    }
+
     private String get(String path) throws IOException {
-        String url = MOLLIE_ENDPOINT + path;
+        try {
+            String url = MOLLIE_ENDPOINT + path;
+            logger.info("Request GET {}", url);
 
-        logger.info("Request GET {}", url);
+            CloseableHttpClient client = HttpClients.createDefault();
+            HttpGet get = new HttpGet(url);
+            get.addHeader("Authorization", "Bearer "+ apiKey);
+            get.addHeader("Content-Type", "application/json");
 
-        String response = Request.Get(url)
-                .addHeader("Authorization", "Bearer "+ apiKey)
-                .addHeader("Content-Type", "application/json")
-                .execute()
-                .returnContent()
-                .asString();
+            String response = client.execute(get, new ResponseHandler());
+            logger.info("Response GET {}", response);
 
-        logger.info("Response GET {}", response);
+            return response;
+        } catch (HttpResponseException e) {
+            logger.error("Response GET {}", e.getReasonPhrase());
+            throw e;
+        }
+    }
 
-        return response;
+    private String post(String path, String json) throws IOException {
+        try {
+            String url = MOLLIE_ENDPOINT + path;
+            logger.info("Request POST {} {}", url, json);
+
+            CloseableHttpClient client = HttpClients.createDefault();
+            HttpPost post = new HttpPost(url);
+            post.addHeader("Authorization", "Bearer "+ apiKey);
+            post.setEntity(new StringEntity(json, ContentType.APPLICATION_JSON));
+
+            String response = client.execute(post, new ResponseHandler());
+            logger.info("Response POST {}", response);
+
+            return response;
+        } catch (HttpResponseException e) {
+            logger.error("Response POST {}", e.getReasonPhrase());
+            throw e;
+        }
+    }
+
+    private static class ResponseHandler extends BasicResponseHandler {
+        @Override
+        public String handleResponse(HttpResponse response) throws IOException {
+            final StatusLine statusLine = response.getStatusLine();
+            final HttpEntity entity = response.getEntity();
+            String body = entity == null ? null : handleEntity(entity);
+
+            if (statusLine.getStatusCode() >= 300) {
+                throw new HttpResponseException(statusLine.getStatusCode(), body);
+            }
+
+            return body;
+        }
     }
 }
