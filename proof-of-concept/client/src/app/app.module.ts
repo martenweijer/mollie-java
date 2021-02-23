@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 //Angular Material Components
 import {MatCheckboxModule} from '@angular/material/checkbox';
@@ -39,12 +39,16 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { PaymentsComponent } from './payments/payments.component';
 import { PaymentComponent } from './payment/payment.component';
+import { CreatePaymentComponent } from './create-payment/create-payment.component';
+import {FormsModule} from "@angular/forms";
+import {ApiInterceptor} from "./api.interceptor";
 
 @NgModule({
   declarations: [
     AppComponent,
     PaymentsComponent,
-    PaymentComponent
+    PaymentComponent,
+    CreatePaymentComponent
   ],
   imports: [
     BrowserModule,
@@ -81,9 +85,16 @@ import { PaymentComponent } from './payment/payment.component';
     MatSnackBarModule,
     MatTableModule,
     MatSortModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    FormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

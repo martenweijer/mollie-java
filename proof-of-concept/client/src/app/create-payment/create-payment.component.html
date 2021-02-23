@@ -1,0 +1,22 @@
+<button mat-raised-button color="primary" routerLink="/payments">Go back</button>
+<mat-divider></mat-divider>
+
+<div class="form">
+  <mat-form-field appearance="fill">
+    <mat-label>Description</mat-label>
+    <input matInput [(ngModel)]="payment.description">
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Amount</mat-label>
+    <input matInput class="example-right-align" [(ngModel)]="payment.amount.value">
+    <span matSuffix>.00</span>
+  </mat-form-field>
+
+  <mat-form-field appearance="fill">
+    <mat-label>Redirect URL</mat-label>
+    <input matInput [(ngModel)]="payment.redirectUrl">
+  </mat-form-field>
+</div>
+
+<button mat-raised-button color="primary" (click)="save()">Save</button>
