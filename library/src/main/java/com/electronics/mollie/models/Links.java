@@ -1,4 +1,4 @@
-package com.electronics.models;
+package com.electronics.mollie.models;
 
 import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 

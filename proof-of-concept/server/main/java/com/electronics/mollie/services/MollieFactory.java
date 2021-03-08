@@ -1,6 +1,6 @@
-package com.electronics.services;
+package com.electronics.mollie.services;
 
-import com.electronics.Mollie;
+import com.electronics.mollie.Mollie;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 

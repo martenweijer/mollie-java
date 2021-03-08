@@ -1,4 +1,4 @@
-package com.electronics.exceptions;
+package com.electronics.mollie.exceptions;
 
 public class MollieException extends Exception {
     public MollieException(Throwable e) {

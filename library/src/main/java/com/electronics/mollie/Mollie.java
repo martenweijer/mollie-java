@@ -1,9 +1,9 @@
-package com.electronics;
+package com.electronics.mollie;
 
-import com.electronics.exceptions.MollieException;
-import com.electronics.models.CreatePayment;
-import com.electronics.models.Payment;
-import com.electronics.models.Result;
+import com.electronics.mollie.exceptions.MollieException;
+import com.electronics.mollie.models.CreatePayment;
+import com.electronics.mollie.models.Payment;
+import com.electronics.mollie.models.Result;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
