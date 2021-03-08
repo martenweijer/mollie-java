@@ -1,4 +1,4 @@
-package com.electronics.models;
+package com.electronics.mollie.models;
 
 import java.util.List;
 

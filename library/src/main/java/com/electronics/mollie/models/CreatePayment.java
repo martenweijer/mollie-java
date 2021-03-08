@@ -1,4 +1,6 @@
-package com.electronics.models;
+package com.electronics.mollie.models;
+
+import com.electronics.mollie.models.Amount;
 
 public class CreatePayment {
     public String description;

@@ -6,7 +6,7 @@ A library made for the payments functionality of Mollie build in Java.
 
 ## Usage
 ```java
-import com.electronics.Mollie;
+import Mollie;
 
 Mollie mollie = Mollie.create("MOLLIE_API_KEY");
 

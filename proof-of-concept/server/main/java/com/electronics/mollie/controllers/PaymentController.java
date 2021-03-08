@@ -1,9 +1,9 @@
-package com.electronics.controllers;
+package com.electronics.mollie.controllers;
 
-import com.electronics.exceptions.MollieException;
-import com.electronics.models.CreatePayment;
-import com.electronics.models.Payment;
-import com.electronics.services.MollieFactory;
+import com.electronics.mollie.exceptions.MollieException;
+import com.electronics.mollie.models.CreatePayment;
+import com.electronics.mollie.models.Payment;
+import com.electronics.mollie.services.MollieFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
