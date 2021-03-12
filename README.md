@@ -2,30 +2,34 @@ Mollie Payment Library
 ======
 [![Latest Version](https://img.shields.io/github/tag/martenweijer/mollie-java.svg?style=flat-square)](https://github.com/martenweijer/mollie-java/tags)
 
-A library made for the payments functionality of Mollie build in Java.
+A library made for the payments functionality of Mollie, made with Java.
 
-## Usage
+## Payments
+https://docs.mollie.com/reference/v2/payments-api/create-payment
 ```java
-Mollie mollie = Mollie.create("MOLLIE_API_KEY");
-```
-
-#### List all payments
-```java
-List<Payment> payments = mollie.getPayments();
+MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 ```
 
 #### Create a new payment
 ```java
-Payment payment = mollie.createPayment(
-    new CreatePayment("description", new Amount("EUR", "100.00"), "redirectUrl")
-);
+Payment payment = new Payment();
+payment.setDescription("description");
+payment.setRedirectUrl("http://");
+payment.setAmount(new Amount("100.00", "EUR"));
+
+Payment result = mollieApiClient.payments().create(payment);
+result.getId();
 ```
 
-#### Find a payment
+#### Get a payment
 ```java
-Payment payment = mollie.findPayment("mollie_payment_id");
+Payment payment = mollieApiClient.payments().get("tr_MOLLIE_ID");
+payment.getDescription();
+payment.getRedirectUrl();
 ```
 
-### Run the PoC application
-- Start the server `./gradlew bootRun`
-- Run the client `npm run start`
+#### Cancel a payment
+```java
+Payment payment = mollieApiClient.payments().cancel("tr_MOLLIE_ID");
+payment.getStatus();
+```
