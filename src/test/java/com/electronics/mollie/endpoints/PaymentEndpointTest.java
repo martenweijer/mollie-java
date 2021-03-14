@@ -1,11 +1,13 @@
 package com.electronics.mollie.endpoints;
 
 import com.electronics.mollie.MollieApiClient;
+import com.electronics.mollie.QueryMap;
 import com.electronics.mollie.exceptions.MollieException;
 import com.electronics.mollie.exceptions.MollieHttpException;
 import com.electronics.mollie.exceptions.MollieResponseStatusCodeException;
 import com.electronics.mollie.http.MollieHttpClient;
 import com.electronics.mollie.resources.Amount;
+import com.electronics.mollie.resources.Page;
 import com.electronics.mollie.resources.Payment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -156,5 +158,76 @@ public class PaymentEndpointTest {
         });
 
         Assertions.assertThrows(MollieException.class, () -> mollieApiClient.payments().cancel("foo"));
+    }
+
+    @Test
+    void pagePayments() throws MollieException {
+        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
+            @Override
+            public String get(String url) throws MollieHttpException {
+                return "{\n" +
+                        "  \"_embedded\": {\n" +
+                        "    \"payments\": [\n" +
+                        "      {\n" +
+                        "        \"resource\": \"payment\",\n" +
+                        "        \"id\": \"tr_foo\"\n" +
+                        "      }\n" +
+                        "    ]\n" +
+                        "  },\n" +
+                        "  \"count\": 50,\n" +
+                        "  \"_links\": {\n" +
+                        "    \"documentation\": {\n" +
+                        "      \"href\": \"https://docs.mollie.com/reference/v2/payments-api/list-payments\",\n" +
+                        "      \"type\": \"text/html\"\n" +
+                        "    },\n" +
+                        "    \"self\": {\n" +
+                        "      \"href\": \"https://api.mollie.com/v2/payments?limit=50\",\n" +
+                        "      \"type\": \"application/hal+json\"\n" +
+                        "    },\n" +
+                        "    \"previous\": null,\n" +
+                        "    \"next\": {\n" +
+                        "      \"href\": \"https://api.mollie.com/v2/payments?from=tr_foo\\u0026limit=50\",\n" +
+                        "      \"type\": \"application/hal+json\"\n" +
+                        "    }\n" +
+                        "  }\n" +
+                        "}";
+            }
+
+            @Override
+            public String post(String url, String json) throws MollieHttpException {
+                return null;
+            }
+
+            @Override
+            public String delete(String url) throws MollieHttpException {
+                return null;
+            }
+        });
+        Page<Payment> page = mollieApiClient.payments().page();
+        Assertions.assertEquals(50, page.getCount());
+        Assertions.assertEquals("tr_foo", page.getItems().get(0).getId());
+    }
+
+    @Test
+    void pagePaymentsException() {
+        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
+            @Override
+            public String get(String url) throws MollieHttpException {
+                return "{\"status\":400,\"title\":\"Bad Request\",\"detail\":\"Invalid cursor value\",\"field\":\"from\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/pagination\",\"type\":\"text/html\"}}}";
+            }
+
+            @Override
+            public String post(String url, String json) throws MollieHttpException {
+                return null;
+            }
+
+            @Override
+            public String delete(String url) throws MollieHttpException {
+                return null;
+            }
+        });
+        QueryMap queryMap = new QueryMap();
+        queryMap.put("from", "foo");
+        Assertions.assertThrows(MollieException.class, () -> mollieApiClient.payments().page(queryMap));
     }
 }
