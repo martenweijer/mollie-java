@@ -33,3 +33,11 @@ payment.getRedirectUrl();
 Payment payment = mollieApiClient.payments().cancel("tr_MOLLIE_ID");
 payment.getStatus();
 ```
+
+#### List payments
+```java
+QueryMap queryMap = new QueryMap();
+queryMap.put("from", "tr_MOLLIE_ID");
+queryMap.put("limit", "10");
+List<Payment> payments = mollieApiClient.payments().page(queryMap);
+```
