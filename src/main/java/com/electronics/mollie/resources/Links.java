@@ -17,4 +17,6 @@ public class Links {
     private Link order;
     private Link status;
     private Link payOnline;
+    private Link previous;
+    private Link next;
 }

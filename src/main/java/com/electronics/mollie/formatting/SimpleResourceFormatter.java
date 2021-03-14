@@ -1,9 +1,11 @@
 package com.electronics.mollie.formatting;
 
 import com.electronics.mollie.exceptions.MollieResponseJsonException;
+import com.electronics.mollie.resources.Page;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.introspect.VisibilityChecker;
 
@@ -20,6 +22,16 @@ public class SimpleResourceFormatter<T> implements ResourceFormatter<T> {
     public T fromJson(Class<T> resourceType, String json) throws MollieResponseJsonException {
         try {
             return objectMapper.readValue(json, resourceType);
+        } catch (JsonProcessingException e) {
+            throw new MollieResponseJsonException(e);
+        }
+    }
+
+    @Override
+    public Page<T> fromJsonCollection(Class<T> resourceType, String json) throws MollieResponseJsonException {
+        try {
+            JavaType javaType = objectMapper.getTypeFactory().constructParametricType(Page.class, resourceType);
+            return objectMapper.readValue(json, javaType);
         } catch (JsonProcessingException e) {
             throw new MollieResponseJsonException(e);
         }
