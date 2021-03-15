@@ -11,8 +11,7 @@ public class Payment {
     private String mode;
     private Date createdAt;
     private String status;
-    @JsonIgnore
-    private boolean isCancelable;
+    private Boolean isCancelable;
     private Date authorizedAt;
     private Date paidAt;
     private Date canceledAt;
@@ -85,11 +84,11 @@ public class Payment {
         this.status = status;
     }
 
-    public boolean getIsCancelable() {
+    public Boolean getIsCancelable() {
         return isCancelable;
     }
 
-    public void setIsCancelable(boolean isCancelable) {
+    public void setIsCancelable(Boolean isCancelable) {
         this.isCancelable = isCancelable;
     }
 

@@ -20,6 +20,7 @@ public class Links {
     private Link previous;
     private Link next;
     private Link pdf;
+    private Link organization;
 
     public Link getSelf() {
         return self;
@@ -95,5 +96,9 @@ public class Links {
 
     public Link getPdf() {
         return pdf;
+    }
+
+    public Link getOrganization() {
+        return organization;
     }
 }
