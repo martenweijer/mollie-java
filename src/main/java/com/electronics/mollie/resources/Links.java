@@ -19,4 +19,81 @@ public class Links {
     private Link payOnline;
     private Link previous;
     private Link next;
+    private Link pdf;
+
+    public Link getSelf() {
+        return self;
+    }
+
+    public Link getCheckout() {
+        return checkout;
+    }
+
+    public Link getMobileAppCheckout() {
+        return mobileAppCheckout;
+    }
+
+    public Link getDashboard() {
+        return dashboard;
+    }
+
+    public Link getChangePaymentState() {
+        return changePaymentState;
+    }
+
+    public Link getRefunds() {
+        return refunds;
+    }
+
+    public Link getChargebacks() {
+        return chargebacks;
+    }
+
+    public Link getCaptures() {
+        return captures;
+    }
+
+    public Link getSettlement() {
+        return settlement;
+    }
+
+    public Link getDocumentation() {
+        return documentation;
+    }
+
+    public Link getMandate() {
+        return mandate;
+    }
+
+    public Link getSubscription() {
+        return subscription;
+    }
+
+    public Link getCustomer() {
+        return customer;
+    }
+
+    public Link getOrder() {
+        return order;
+    }
+
+    public Link getStatus() {
+        return status;
+    }
+
+    public Link getPayOnline() {
+        return payOnline;
+    }
+
+    public Link getPrevious() {
+        return previous;
+    }
+
+    public Link getNext() {
+        return next;
+    }
+
+    public Link getPdf() {
+        return pdf;
+    }
 }
