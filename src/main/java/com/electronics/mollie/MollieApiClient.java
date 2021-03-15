@@ -2,6 +2,7 @@ package com.electronics.mollie;
 
 import com.electronics.mollie.endpoints.InvoiceEndpoint;
 import com.electronics.mollie.endpoints.MethodEndpoint;
+import com.electronics.mollie.endpoints.OnboardingEndpoint;
 import com.electronics.mollie.endpoints.PaymentEndpoint;
 import com.electronics.mollie.formatting.ResourceFormatter;
 import com.electronics.mollie.formatting.SimpleResourceFormatter;
@@ -9,6 +10,7 @@ import com.electronics.mollie.http.MollieHttpClient;
 import com.electronics.mollie.http.SimpleMollieHttpClient;
 import com.electronics.mollie.resources.Invoice;
 import com.electronics.mollie.resources.Method;
+import com.electronics.mollie.resources.Onboarding;
 import com.electronics.mollie.resources.Payment;
 
 public class MollieApiClient {
@@ -46,5 +48,13 @@ public class MollieApiClient {
 
     public InvoiceEndpoint invoices(ResourceFormatter<Invoice> resourceFormatter) {
         return new InvoiceEndpoint(mollieHttpClient, resourceFormatter);
+    }
+
+    public OnboardingEndpoint onboarding() {
+        return onboarding(new SimpleResourceFormatter<>());
+    }
+
+    public OnboardingEndpoint onboarding(ResourceFormatter<Onboarding> resourceFormatter) {
+        return new OnboardingEndpoint(mollieHttpClient, resourceFormatter);
     }
 }

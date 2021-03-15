@@ -14,6 +14,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Payments](#payments)
 * [Payment methods](#payment-methods)
 * [Invoices](#invoices)
+* [Onboarding](#onboarding)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -94,4 +95,28 @@ invoice.getStatus();
 ```java
 Page<Invoice> invoices = mollieApiClient.invoices().page();
 List<Invoice> items = invoices.getItems();
+```
+
+----
+
+### Onboarding
+https://docs.mollie.com/reference/v2/onboarding-api/get-onboarding-status
+```java
+OnboardingEndpoint onboarding = mollieApiClient.onboarding();
+```
+
+#### Get onboarding status
+```java
+Onboarding onboarding = mollieApiClient.onboarding().get();
+onboarding.getName();
+onboarding.getStatus();
+```
+
+#### Submit onboarding status
+```java
+Organization organization = new Organization();
+organization.setName("foo");
+Onboarding onboarding = new Onboarding();
+onboarding.setOrganization(organization);
+mollieApiClient.onboarding().submit(onboarding);
 ```
