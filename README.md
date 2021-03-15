@@ -13,6 +13,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 
 * [Payments](#payments)
 * [Payment methods](#payment-methods)
+* [Invoices](#invoices)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -72,4 +73,25 @@ method.getStatus();
 ```java
 Page<Method> methods = mollieApiClient.methods().all();
 List<Method> items = methods.getItems();
+```
+
+----
+
+### Invoices
+https://docs.mollie.com/reference/v2/invoices-api/get-invoice
+```java
+InvoiceEndpoint invoices = mollieApiClient.invoices();
+```
+
+#### Get an invoice
+```java
+Invoice invoice = mollieApiClient.invoices().get("inv_xBEbP9rvAq");
+invoice.getVatNumber();
+invoice.getStatus();
+```
+
+#### List invoices
+```java
+Page<Invoice> invoices = mollieApiClient.invoices().page();
+List<Invoice> items = invoices.getItems();
 ```

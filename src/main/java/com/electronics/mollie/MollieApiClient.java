@@ -1,11 +1,13 @@
 package com.electronics.mollie;
 
+import com.electronics.mollie.endpoints.InvoiceEndpoint;
 import com.electronics.mollie.endpoints.MethodEndpoint;
 import com.electronics.mollie.endpoints.PaymentEndpoint;
 import com.electronics.mollie.formatting.ResourceFormatter;
 import com.electronics.mollie.formatting.SimpleResourceFormatter;
 import com.electronics.mollie.http.MollieHttpClient;
 import com.electronics.mollie.http.SimpleMollieHttpClient;
+import com.electronics.mollie.resources.Invoice;
 import com.electronics.mollie.resources.Method;
 import com.electronics.mollie.resources.Payment;
 
@@ -36,5 +38,13 @@ public class MollieApiClient {
 
     public MethodEndpoint methods(ResourceFormatter<Method> resourceFormatter) {
         return new MethodEndpoint(mollieHttpClient, resourceFormatter);
+    }
+
+    public InvoiceEndpoint invoices() {
+        return invoices(new SimpleResourceFormatter<>());
+    }
+
+    public InvoiceEndpoint invoices(ResourceFormatter<Invoice> resourceFormatter) {
+        return new InvoiceEndpoint(mollieHttpClient, resourceFormatter);
     }
 }
