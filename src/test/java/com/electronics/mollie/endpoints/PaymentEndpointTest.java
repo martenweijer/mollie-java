@@ -12,74 +12,43 @@ import com.electronics.mollie.resources.Payment;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 public class PaymentEndpointTest {
     @Test
     void getPayment() throws MollieException {
-        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
-            @Override
-            public String get(String url) throws MollieHttpException {
-                return "{\"id\":\"foo\"}";
-            }
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.get(anyString())).thenReturn("{\"id\":\"foo\"}");
 
-            @Override
-            public String post(String url, String json) throws MollieHttpException {
-                return null;
-            }
-
-            @Override
-            public String delete(String url) throws MollieHttpException {
-                return null;
-            }
-        });
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
         Payment payment = mollieApiClient.payments().get("tr_mj4K2RGf9V");
         Assertions.assertNotNull(payment);
         Assertions.assertEquals("foo", payment.getId());
     }
 
     @Test
-    void getPaymentException() {
-        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
-            @Override
-            public String get(String url) throws MollieHttpException {
-                throw new MollieResponseStatusCodeException(404, "{\"status\":404,\"title\":\"Not Found\",\"detail\":\"No payment exists with token foo.\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/handling-errors\",\"type\":\"text/html\"}}}");
-            }
+    void getPaymentException() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.get(anyString())).thenThrow(new MollieResponseStatusCodeException(404, "{\"status\":404,\"title\":\"Not Found\",\"detail\":\"No payment exists with token foo.\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/handling-errors\",\"type\":\"text/html\"}}}"));
 
-            @Override
-            public String post(String url, String json) throws MollieHttpException {
-                return null;
-            }
-
-            @Override
-            public String delete(String url) throws MollieHttpException {
-                return null;
-            }
-        });
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
 
         Assertions.assertThrows(MollieException.class, () -> mollieApiClient.payments().get("foo"));
     }
 
     @Test
     void createPayment() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.post(anyString(), anyString())).thenReturn("{\"id\":\"foo\",\"description\":\"foo\",\"amount\":{\"value\":\"100.00\",\"currency\":\"EUR\"},\"redirectUrl\":\"foo\"}");
+
         Payment payment = new Payment();
         payment.setDescription("foo");
         payment.setRedirectUrl("foo");
         payment.setAmount(new Amount("100.00", "EUR"));
-        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
-            @Override
-            public String get(String url) throws MollieHttpException {
-                return null;
-            }
 
-            @Override
-            public String post(String url, String json) throws MollieHttpException {
-                return "{\"id\":\"foo\",\"description\":\"foo\",\"amount\":{\"value\":\"100.00\",\"currency\":\"EUR\"},\"redirectUrl\":\"foo\"}";
-            }
-
-            @Override
-            public String delete(String url) throws MollieHttpException {
-                return null;
-            }
-        });
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
         Payment result = mollieApiClient.payments().create(payment);
         Assertions.assertNotNull(result);
         Assertions.assertEquals("foo", result.getId());
@@ -87,49 +56,25 @@ public class PaymentEndpointTest {
     }
 
     @Test
-    void createPaymentException() {
+    void createPaymentException() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.post(anyString(), anyString())).thenThrow(new MollieResponseStatusCodeException(422, "{\"status\":422,\"title\":\"Unprocessable Entity\",\"detail\":\"The amount contains an invalid value\",\"field\":\"amount.value\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/handling-errors\",\"type\":\"text/html\"}}}"));
+
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
         Payment payment = new Payment();
         payment.setDescription("foo");
         payment.setRedirectUrl("foo");
         payment.setAmount(new Amount("100.00", "EUR"));
-        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
-            @Override
-            public String get(String url) throws MollieHttpException {
-                return null;
-            }
-
-            @Override
-            public String post(String url, String json) throws MollieHttpException {
-                throw new MollieResponseStatusCodeException(422, "{\"status\":422,\"title\":\"Unprocessable Entity\",\"detail\":\"The amount contains an invalid value\",\"field\":\"amount.value\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/handling-errors\",\"type\":\"text/html\"}}}");
-            }
-
-            @Override
-            public String delete(String url) throws MollieHttpException {
-                return null;
-            }
-        });
 
         Assertions.assertThrows(MollieException.class, () -> mollieApiClient.payments().create(payment));
     }
 
     @Test
     void cancelPayment() throws MollieException {
-        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
-            @Override
-            public String get(String url) throws MollieHttpException {
-                return null;
-            }
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.delete(anyString())).thenReturn("{\"id\":\"foo\",\"status\":\"canceled\",\"canceledAt\":\"2018-03-19T10:19:15+00:00\"}");
 
-            @Override
-            public String post(String url, String json) throws MollieHttpException {
-                return null;
-            }
-
-            @Override
-            public String delete(String url) throws MollieHttpException {
-                return "{\"id\":\"foo\",\"status\":\"canceled\",\"canceledAt\":\"2018-03-19T10:19:15+00:00\"}";
-            }
-        });
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
         Payment payment = mollieApiClient.payments().cancel("foo");
         Assertions.assertNotNull(payment);
         Assertions.assertEquals("foo", payment.getId());
@@ -139,93 +84,56 @@ public class PaymentEndpointTest {
     }
 
     @Test
-    void cancelPaymentException() {
-        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
-            @Override
-            public String get(String url) throws MollieHttpException {
-                return null;
-            }
+    void cancelPaymentException() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.delete(anyString())).thenThrow(new MollieResponseStatusCodeException(422, "{\"status\":422,\"title\":\"Unprocessable Entity\",\"detail\":\"The payment cannot be cancelled\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/handling-errors\",\"type\":\"text/html\"}}}"));
 
-            @Override
-            public String post(String url, String json) throws MollieHttpException {
-                return null;
-            }
-
-            @Override
-            public String delete(String url) throws MollieHttpException {
-                throw new MollieResponseStatusCodeException(422, "{\"status\":422,\"title\":\"Unprocessable Entity\",\"detail\":\"The payment cannot be cancelled\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/handling-errors\",\"type\":\"text/html\"}}}");
-            }
-        });
-
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
         Assertions.assertThrows(MollieException.class, () -> mollieApiClient.payments().cancel("foo"));
     }
 
     @Test
     void pagePayments() throws MollieException {
-        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
-            @Override
-            public String get(String url) throws MollieHttpException {
-                return "{\n" +
-                        "  \"_embedded\": {\n" +
-                        "    \"payments\": [\n" +
-                        "      {\n" +
-                        "        \"resource\": \"payment\",\n" +
-                        "        \"id\": \"tr_foo\"\n" +
-                        "      }\n" +
-                        "    ]\n" +
-                        "  },\n" +
-                        "  \"count\": 50,\n" +
-                        "  \"_links\": {\n" +
-                        "    \"documentation\": {\n" +
-                        "      \"href\": \"https://docs.mollie.com/reference/v2/payments-api/list-payments\",\n" +
-                        "      \"type\": \"text/html\"\n" +
-                        "    },\n" +
-                        "    \"self\": {\n" +
-                        "      \"href\": \"https://api.mollie.com/v2/payments?limit=50\",\n" +
-                        "      \"type\": \"application/hal+json\"\n" +
-                        "    },\n" +
-                        "    \"previous\": null,\n" +
-                        "    \"next\": {\n" +
-                        "      \"href\": \"https://api.mollie.com/v2/payments?from=tr_foo\\u0026limit=50\",\n" +
-                        "      \"type\": \"application/hal+json\"\n" +
-                        "    }\n" +
-                        "  }\n" +
-                        "}";
-            }
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.get(anyString())).thenReturn("{\n" +
+                "  \"_embedded\": {\n" +
+                "    \"payments\": [\n" +
+                "      {\n" +
+                "        \"resource\": \"payment\",\n" +
+                "        \"id\": \"tr_foo\"\n" +
+                "      }\n" +
+                "    ]\n" +
+                "  },\n" +
+                "  \"count\": 50,\n" +
+                "  \"_links\": {\n" +
+                "    \"documentation\": {\n" +
+                "      \"href\": \"https://docs.mollie.com/reference/v2/payments-api/list-payments\",\n" +
+                "      \"type\": \"text/html\"\n" +
+                "    },\n" +
+                "    \"self\": {\n" +
+                "      \"href\": \"https://api.mollie.com/v2/payments?limit=50\",\n" +
+                "      \"type\": \"application/hal+json\"\n" +
+                "    },\n" +
+                "    \"previous\": null,\n" +
+                "    \"next\": {\n" +
+                "      \"href\": \"https://api.mollie.com/v2/payments?from=tr_foo\\u0026limit=50\",\n" +
+                "      \"type\": \"application/hal+json\"\n" +
+                "    }\n" +
+                "  }\n" +
+                "}");
 
-            @Override
-            public String post(String url, String json) throws MollieHttpException {
-                return null;
-            }
-
-            @Override
-            public String delete(String url) throws MollieHttpException {
-                return null;
-            }
-        });
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
         Page<Payment> page = mollieApiClient.payments().page();
         Assertions.assertEquals(50, page.getCount());
         Assertions.assertEquals("tr_foo", page.getItems().get(0).getId());
     }
 
     @Test
-    void pagePaymentsException() {
-        MollieApiClient mollieApiClient = new MollieApiClient(new MollieHttpClient() {
-            @Override
-            public String get(String url) throws MollieHttpException {
-                return "{\"status\":400,\"title\":\"Bad Request\",\"detail\":\"Invalid cursor value\",\"field\":\"from\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/pagination\",\"type\":\"text/html\"}}}";
-            }
+    void pagePaymentsException() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.get(anyString())).thenThrow(new MollieResponseStatusCodeException(400, "{\"status\":400,\"title\":\"Bad Request\",\"detail\":\"Invalid cursor value\",\"field\":\"from\",\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/guides/pagination\",\"type\":\"text/html\"}}}"));
 
-            @Override
-            public String post(String url, String json) throws MollieHttpException {
-                return null;
-            }
-
-            @Override
-            public String delete(String url) throws MollieHttpException {
-                return null;
-            }
-        });
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
         QueryMap queryMap = new QueryMap();
         queryMap.put("from", "foo");
         Assertions.assertThrows(MollieException.class, () -> mollieApiClient.payments().page(queryMap));
