@@ -2,7 +2,7 @@ Mollie Payment Library
 ======
 [![Latest Version](https://img.shields.io/github/tag/martenweijer/mollie-java.svg?style=flat-square)](https://github.com/martenweijer/mollie-java/tags)
 
-A library made for the payments functionality of Mollie, made with Java.
+API library for the functionalities of Mollie, made with Java.
 
 ## Usage
 ```java
@@ -15,6 +15,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Payment methods](#payment-methods)
 * [Invoices](#invoices)
 * [Onboarding](#onboarding)
+* [Chargebacks](#chargebacks)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -119,4 +120,25 @@ organization.setName("foo");
 Onboarding onboarding = new Onboarding();
 onboarding.setOrganization(organization);
 mollieApiClient.onboarding().submit(onboarding);
+```
+
+----
+
+### Chargebacks
+https://docs.mollie.com/reference/v2/chargebacks-api/get-chargeback
+```java
+ChargebackEndpoint chargebacks = mollieApiClient.chargebacks();
+```
+
+#### Get a chargeback
+```java
+Chargeback chargeback = mollieApiClient.chargebacks().get("paymentId", "chargebackId");
+chargeback.getId();
+chargeback.getAmount();
+```
+
+#### List chargebacks
+```java
+Page<Chargeback> chargebacks = mollieApiClient.chargebacks().all("paymentId");
+List<Chargeback> items = chargebacks.getItems();
 ```
