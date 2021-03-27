@@ -18,6 +18,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Chargebacks](#chargebacks)
 * [Permissions](#permissions)
 * [Organizations](#organizations)
+* [Mandates](#mandates)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -179,3 +180,37 @@ OrganizationEndpoint organizations = mollieApiClient.organizations();
 Organization organization = mollieApiClient.organizations().get("me");
 organization.getId();
 ```
+
+----
+
+### Mandates
+https://docs.mollie.com/reference/v2/mandates-api/create-mandate
+```java
+MandateEndpoint mandates = mollieApiClient.mandates();
+```
+
+#### Create a new mandate
+```java
+Mandate mandate = new Mandate();
+mandate.setMethod("directdebit");
+mandate.setConsumerName("consumerName");
+
+Mandate result = mollieApiClient.mandates().create(mandate, "customerId");
+result.getId();
+```
+
+#### Get a mandate
+```java
+Mandate mandate = mollieApiClient.mandates().get("customerId", "mandateId");
+mandate.getMode();
+```
+
+#### Revoke a mandate
+```java
+mollieApiClient.mandates().revoke("customerId", "mandateId");
+```
+
+#### List mandates
+```java
+Page<Mandate> page = mollieApiClient.mandates().all("customerId");
+List<Mandate> mandates = page.getItems();
