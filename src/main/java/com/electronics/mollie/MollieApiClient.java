@@ -59,4 +59,12 @@ public class MollieApiClient {
     public ChargebackEndpoint chargebacks(ResourceFormatter<Chargeback> resourceFormatter) {
         return new ChargebackEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public PermissionEndpoint permissions() {
+        return permissions(new SimpleResourceFormatter<>());
+    }
+
+    public PermissionEndpoint permissions(ResourceFormatter<Permission> resourceFormatter) {
+        return new PermissionEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }
