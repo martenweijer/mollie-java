@@ -16,6 +16,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Invoices](#invoices)
 * [Onboarding](#onboarding)
 * [Chargebacks](#chargebacks)
+* [Permissions](#permissions)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -141,4 +142,25 @@ chargeback.getAmount();
 ```java
 Page<Chargeback> chargebacks = mollieApiClient.chargebacks().all("paymentId");
 List<Chargeback> items = chargebacks.getItems();
+```
+
+----
+
+### Permissions
+https://docs.mollie.com/reference/v2/permissions-api/get-permission
+```java
+PermissionEndpoint permissions = mollieApiClient.permissions();
+```
+
+#### Get a permission
+```java
+Permission permission = mollieApiClient.permissions().get("permissionId");
+permission.getId();
+permission.getDescription();
+```
+
+#### List permissions
+```java
+Page<Permission> permissions = mollieApiClient.permissions().all();
+List<Permission> items = permissions.getItems();
 ```
