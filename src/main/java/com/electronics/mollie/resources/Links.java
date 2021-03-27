@@ -21,6 +21,7 @@ public class Links {
     private Link next;
     private Link pdf;
     private Link organization;
+    private Link payment;
 
     public Link getSelf() {
         return self;
@@ -100,5 +101,9 @@ public class Links {
 
     public Link getOrganization() {
         return organization;
+    }
+
+    public Link getPayment() {
+        return payment;
     }
 }

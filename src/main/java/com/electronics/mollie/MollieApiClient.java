@@ -1,17 +1,11 @@
 package com.electronics.mollie;
 
-import com.electronics.mollie.endpoints.InvoiceEndpoint;
-import com.electronics.mollie.endpoints.MethodEndpoint;
-import com.electronics.mollie.endpoints.OnboardingEndpoint;
-import com.electronics.mollie.endpoints.PaymentEndpoint;
+import com.electronics.mollie.endpoints.*;
 import com.electronics.mollie.formatting.ResourceFormatter;
 import com.electronics.mollie.formatting.SimpleResourceFormatter;
 import com.electronics.mollie.http.MollieHttpClient;
 import com.electronics.mollie.http.SimpleMollieHttpClient;
-import com.electronics.mollie.resources.Invoice;
-import com.electronics.mollie.resources.Method;
-import com.electronics.mollie.resources.Onboarding;
-import com.electronics.mollie.resources.Payment;
+import com.electronics.mollie.resources.*;
 
 public class MollieApiClient {
     private static final String MOLLIE_API_ENDPOINT = "https://api.mollie.com/v2";
@@ -56,5 +50,13 @@ public class MollieApiClient {
 
     public OnboardingEndpoint onboarding(ResourceFormatter<Onboarding> resourceFormatter) {
         return new OnboardingEndpoint(mollieHttpClient, resourceFormatter);
+    }
+
+    public ChargebackEndpoint chargebacks() {
+        return chargebacks(new SimpleResourceFormatter<>());
+    }
+
+    public ChargebackEndpoint chargebacks(ResourceFormatter<Chargeback> resourceFormatter) {
+        return new ChargebackEndpoint(mollieHttpClient, resourceFormatter);
     }
 }
