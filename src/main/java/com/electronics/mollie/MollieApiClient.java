@@ -75,4 +75,12 @@ public class MollieApiClient {
     public OrganizationEndpoint organizations(ResourceFormatter<Organization> resourceFormatter) {
         return new OrganizationEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public MandateEndpoint mandates() {
+        return mandates(new SimpleResourceFormatter<>());
+    }
+
+    public MandateEndpoint mandates(ResourceFormatter<Mandate> resourceFormatter) {
+        return new MandateEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }
