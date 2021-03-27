@@ -15,7 +15,7 @@ import static org.mockito.Mockito.when;
 
 public class CustomerEndpointTest {
     @Test
-    void getMandate() throws MollieException {
+    void getCustomer() throws MollieException {
         MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
         when(mollieHttpClient.get(anyString())).thenReturn("{\n" +
                 "    \"resource\": \"customer\",\n" +

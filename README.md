@@ -20,6 +20,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Organizations](#organizations)
 * [Mandates](#mandates)
 * [Customers](#customers)
+* [Shipments](#shipments)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -257,4 +258,39 @@ mollieApiClient.mandates().delete("customerId");
 ```java
 Page<Customer> page = mollieApiClient.customers().all();
 List<Customer> customers = page.getItems();
+```
+
+----
+
+### Shipments
+https://docs.mollie.com/reference/v2/shipments-api/create-shipment
+```java
+ShipmentEndpoint shipments = mollieApiClient.shipments();
+```
+
+#### Create a new shipment
+```java
+Shipment shipment = new Shipment();
+
+Shipment result = mollieApiClient.shipments().create("orderId", shipment);
+result.getId();
+```
+
+#### Get a shipment
+```java
+Shipment shipment = mollieApiClient.shipments().get("customerId");
+shipment.getId();
+```
+
+#### Update a shipment
+```java
+Shipment shipment = new Shipment();
+
+mollieApiClient.shipments().update("orderId", shipment);
+```
+
+#### List shipments
+```java
+Page<Shipment> page = mollieApiClient.shipments().all();
+List<Shipment> shipments = page.getItems();
 ```
