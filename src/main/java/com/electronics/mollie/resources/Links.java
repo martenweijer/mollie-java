@@ -29,6 +29,8 @@ public class Links {
     private Link settlements;
     private Link mandates;
     private Link subscriptions;
+    private Link productUrl;
+    private Link imageUrl;
 
     public Link getSelf() {
         return self;
@@ -140,5 +142,13 @@ public class Links {
 
     public Link getSubscriptions() {
         return subscriptions;
+    }
+
+    public Link getProductUrl() {
+        return productUrl;
+    }
+
+    public Link getImageUrl() {
+        return imageUrl;
     }
 }
