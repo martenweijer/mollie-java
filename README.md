@@ -17,6 +17,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Onboarding](#onboarding)
 * [Chargebacks](#chargebacks)
 * [Permissions](#permissions)
+* [Organizations](#organizations)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -163,4 +164,18 @@ permission.getDescription();
 ```java
 Page<Permission> permissions = mollieApiClient.permissions().all();
 List<Permission> items = permissions.getItems();
+```
+
+----
+
+### Organizations
+https://docs.mollie.com/reference/v2/organizations-api/current-organization
+```java
+OrganizationEndpoint organizations = mollieApiClient.organizations();
+```
+
+#### Get the current organization
+```java
+Organization organization = mollieApiClient.organizations().get("me");
+organization.getId();
 ```
