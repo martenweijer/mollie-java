@@ -67,4 +67,12 @@ public class MollieApiClient {
     public PermissionEndpoint permissions(ResourceFormatter<Permission> resourceFormatter) {
         return new PermissionEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public OrganizationEndpoint organizations() {
+        return organizations(new SimpleResourceFormatter<>());
+    }
+
+    public OrganizationEndpoint organizations(ResourceFormatter<Organization> resourceFormatter) {
+        return new OrganizationEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }

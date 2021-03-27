@@ -22,6 +22,11 @@ public class Links {
     private Link pdf;
     private Link organization;
     private Link payment;
+    private Link customers;
+    private Link invoices;
+    private Link payments;
+    private Link profiles;
+    private Link settlements;
 
     public Link getSelf() {
         return self;
@@ -105,5 +110,25 @@ public class Links {
 
     public Link getPayment() {
         return payment;
+    }
+
+    public Link getCustomers() {
+        return customers;
+    }
+
+    public Link getInvoices() {
+        return invoices;
+    }
+
+    public Link getPayments() {
+        return payments;
+    }
+
+    public Link getProfiles() {
+        return profiles;
+    }
+
+    public Link getSettlements() {
+        return settlements;
     }
 }
