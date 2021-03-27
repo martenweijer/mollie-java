@@ -19,6 +19,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Permissions](#permissions)
 * [Organizations](#organizations)
 * [Mandates](#mandates)
+* [Customers](#customers)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -214,3 +215,46 @@ mollieApiClient.mandates().revoke("customerId", "mandateId");
 ```java
 Page<Mandate> page = mollieApiClient.mandates().all("customerId");
 List<Mandate> mandates = page.getItems();
+```
+
+----
+
+### Customers
+https://docs.mollie.com/reference/v2/customers-api/create-customer
+```java
+CustomerEndpoint customers = mollieApiClient.customers();
+```
+
+#### Create a new customer
+```java
+Customer customer = new Customer();
+customer.setName("customer");
+
+Mandate result = mollieApiClient.customers().create(customer);
+result.getId();
+```
+
+#### Get a customer
+```java
+Customer customer = mollieApiClient.customers().get("customerId");
+customer.getMode();
+```
+
+#### Update a customer
+```java
+Customer customer = new Customer();
+customer.setName("update customer");
+
+mollieApiClient.customers().update("customerId", customer);
+```
+
+#### Delete a customer
+```java
+mollieApiClient.mandates().delete("customerId");
+```
+
+#### List customers
+```java
+Page<Customer> page = mollieApiClient.customers().all();
+List<Customer> customers = page.getItems();
+```

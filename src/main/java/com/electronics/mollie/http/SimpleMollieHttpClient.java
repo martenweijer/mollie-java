@@ -67,6 +67,29 @@ public class SimpleMollieHttpClient implements MollieHttpClient {
         }
     }
 
+    @Override
+    public String patch(String url, String json) throws MollieHttpException {
+        try {
+            String uri = endpoint + url;
+            logger.info("Request PATCH {} {}", uri, json);
+
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder().method("PATCH", HttpRequest.BodyPublishers.ofString(json))
+                    .header("Authorization", "Bearer " + apiKey)
+                    .uri(new URI(uri)).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.info("Response PATCH {}", response.body());
+
+            if (response.statusCode() >= 300) {
+                throw new MollieResponseStatusCodeException(response);
+            }
+
+            return response.body();
+        } catch (IOException | InterruptedException | URISyntaxException e) {
+            throw new MollieHttpException(e);
+        }
+    }
+
     public String delete(String url) throws MollieHttpException {
         try {
             String uri = endpoint + url;

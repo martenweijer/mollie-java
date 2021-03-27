@@ -27,6 +27,8 @@ public class Links {
     private Link payments;
     private Link profiles;
     private Link settlements;
+    private Link mandates;
+    private Link subscriptions;
 
     public Link getSelf() {
         return self;
@@ -130,5 +132,13 @@ public class Links {
 
     public Link getSettlements() {
         return settlements;
+    }
+
+    public Link getMandates() {
+        return mandates;
+    }
+
+    public Link getSubscriptions() {
+        return subscriptions;
     }
 }
