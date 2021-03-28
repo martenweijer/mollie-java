@@ -31,6 +31,7 @@ public class Links {
     private Link subscriptions;
     private Link productUrl;
     private Link imageUrl;
+    private Link profile;
 
     public Link getSelf() {
         return self;
@@ -150,5 +151,9 @@ public class Links {
 
     public Link getImageUrl() {
         return imageUrl;
+    }
+
+    public Link getProfile() {
+        return profile;
     }
 }

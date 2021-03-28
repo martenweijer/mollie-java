@@ -115,4 +115,12 @@ public class MollieApiClient {
     public RefundEndpoint refunds(ResourceFormatter<Refund> resourceFormatter) {
         return new RefundEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public SubscriptionEndpoint subscriptions() {
+        return subscriptions(new SimpleResourceFormatter<>());
+    }
+
+    public SubscriptionEndpoint subscriptions(ResourceFormatter<Subscription> resourceFormatter) {
+        return new SubscriptionEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }
