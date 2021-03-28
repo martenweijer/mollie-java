@@ -27,6 +27,15 @@ public class OrderLine {
     private Date createdAt;
     @JsonProperty("_links")
     private Links links;
+    private Integer quantityShipped;
+    private Amount amountShipped;
+    private Integer quantityRefunded;
+    private Amount amountRefunded;
+    private Integer quantityCanceled;
+    private Amount amountCanceled;
+    private Integer shippableQuantity;
+    private Integer refundableQuantity;
+    private Integer cancelableQuantity;
 
     public void setId(String id) {
         this.id = id;
@@ -38,5 +47,29 @@ public class OrderLine {
 
     public void setAmount(Amount amount) {
         this.amount = amount;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setUnitPrice(Amount unitPrice) {
+        this.unitPrice = unitPrice;
+    }
+
+    public void setTotalAmount(Amount totalAmount) {
+        this.totalAmount = totalAmount;
+    }
+
+    public void setVatRate(String vatRate) {
+        this.vatRate = vatRate;
+    }
+
+    public void setVatAmount(Amount vatAmount) {
+        this.vatAmount = vatAmount;
+    }
+
+    public void setDiscountAmount(Amount discountAmount) {
+        this.discountAmount = discountAmount;
     }
 }
