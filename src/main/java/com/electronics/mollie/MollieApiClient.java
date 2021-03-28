@@ -107,4 +107,12 @@ public class MollieApiClient {
     public OrderEndpoint orders(ResourceFormatter<Order> resourceFormatter) {
         return new OrderEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public RefundEndpoint refunds() {
+        return refunds(new SimpleResourceFormatter<>());
+    }
+
+    public RefundEndpoint refunds(ResourceFormatter<Refund> resourceFormatter) {
+        return new RefundEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }

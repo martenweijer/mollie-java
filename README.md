@@ -22,6 +22,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Customers](#customers)
 * [Shipments](#shipments)
 * [Orders](#orders)
+* [Refunds](#refunds)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -334,4 +335,37 @@ mollieApiClient.orders().delete("orderId");
 ```java
 Page<Order> page = mollieApiClient.orders().all();
 List<Order> orders = page.getItems();
+```
+
+----
+
+### Refunds
+https://docs.mollie.com/reference/v2/refunds-api/create-refund
+```java
+RefundEndpoint refunds = mollieApiClient.refunds();
+```
+
+#### Create a new refund
+```java
+Refund refund = new Refund();
+
+Refund result = mollieApiClient.refunds().create("paymentId", refund);
+result.getId();
+```
+
+#### Get a refund
+```java
+Refund refund = mollieApiClient.refunds().get("paymentId", "refundId");
+refund.getId();
+```
+
+#### Delete a refund
+```java
+mollieApiClient.refunds().cancel("paymentId", "refundId");
+```
+
+#### List refunds
+```java
+Page<Refund> page = mollieApiClient.refunds().all();
+List<Refund> orders = page.getItems();
 ```
