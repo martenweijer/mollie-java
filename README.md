@@ -23,6 +23,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Shipments](#shipments)
 * [Orders](#orders)
 * [Refunds](#refunds)
+* [Subscriptions](#subscriptions)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -368,4 +369,37 @@ mollieApiClient.refunds().cancel("paymentId", "refundId");
 ```java
 Page<Refund> page = mollieApiClient.refunds().all();
 List<Refund> orders = page.getItems();
+```
+
+----
+
+### Subscriptions
+https://docs.mollie.com/reference/v2/subscriptions-api/create-subscription
+```java
+SubscriptionEndpoint subscriptions = mollieApiClient.subscriptions();
+```
+
+#### Create a new subscription
+```java
+Subscription subscription = new Subscription();
+
+Subscription result = mollieApiClient.subscriptions().create("customerId", subscription);
+result.getId();
+```
+
+#### Get a subscription
+```java
+Subscription subscription = mollieApiClient.subscriptions().get("customerId", "refundId");
+subscription.getId();
+```
+
+#### Delete a subscription
+```java
+mollieApiClient.subscriptions().cancel("customerId", "subscriptionId");
+```
+
+#### List subscriptions
+```java
+Page<Subscription> page = mollieApiClient.subscriptions().all("customerId");
+List<Subscription> orders = page.getItems();
 ```
