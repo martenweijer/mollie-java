@@ -99,4 +99,12 @@ public class MollieApiClient {
     public ShipmentEndpoint shipments(ResourceFormatter<Shipment> resourceFormatter) {
         return new ShipmentEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public OrderEndpoint orders() {
+        return orders(new SimpleResourceFormatter<>());
+    }
+
+    public OrderEndpoint orders(ResourceFormatter<Order> resourceFormatter) {
+        return new OrderEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }

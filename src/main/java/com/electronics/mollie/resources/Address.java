@@ -6,6 +6,14 @@ public class Address {
     private String city;
     private String region;
     private String country;
+    private String organizationName;
+    private String title;
+    private String givenName;
+    private String familyName;
+    private String email;
+    private String phone;
+    private String streetAdditional;
+
 
     public String getStreetAndNumber() {
         return streetAndNumber;
@@ -45,5 +53,17 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public void setGivenName(String givenName) {
+        this.givenName = givenName;
+    }
+
+    public void setFamilyName(String familyName) {
+        this.familyName = familyName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 }
