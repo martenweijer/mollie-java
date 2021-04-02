@@ -131,4 +131,12 @@ public class MollieApiClient {
     public SettlementEndpoint settlements(ResourceFormatter<Settlement> resourceFormatter) {
         return new SettlementEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public CaptureEndpoint captures() {
+        return captures(new SimpleResourceFormatter<>());
+    }
+
+    public CaptureEndpoint captures(ResourceFormatter<Capture> resourceFormatter) {
+        return new CaptureEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }
