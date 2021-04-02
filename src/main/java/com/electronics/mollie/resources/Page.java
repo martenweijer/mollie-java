@@ -29,7 +29,7 @@ public class Page<T> {
     }
 
     private static class Embedded<T> {
-        @JsonAlias({"payments", "methods", "invoices", "chargebacks", "permissions", "mandates", "customers", "shipments", "orders", "refunds", "subscriptions"})
+        @JsonAlias({"payments", "methods", "invoices", "chargebacks", "permissions", "mandates", "customers", "shipments", "orders", "refunds", "subscriptions", "settlements"})
         private List<T> items;
 
         public List<T> getItems() {
