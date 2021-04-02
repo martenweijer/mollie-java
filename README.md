@@ -24,6 +24,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Orders](#orders)
 * [Refunds](#refunds)
 * [Subscriptions](#subscriptions)
+* [Settlements](#settlements)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -401,5 +402,25 @@ mollieApiClient.subscriptions().cancel("customerId", "subscriptionId");
 #### List subscriptions
 ```java
 Page<Subscription> page = mollieApiClient.subscriptions().all("customerId");
-List<Subscription> orders = page.getItems();
+List<Subscription> subscriptions = page.getItems();
+```
+
+----
+
+### Settlements
+https://docs.mollie.com/reference/v2/settlements-api/get-settlement
+```java
+SettlementEndpoint settlements = mollieApiClient.settlements();
+```
+
+#### Get a settlement
+```java
+Settlement settlement = mollieApiClient.settlements().get("settlementId");
+settlement.getId();
+```
+
+#### List settlements
+```java
+Page<Settlement> page = mollieApiClient.settlements().all();
+List<Settlement> settlements = page.getItems();
 ```

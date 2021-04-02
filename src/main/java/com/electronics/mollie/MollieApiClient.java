@@ -123,4 +123,12 @@ public class MollieApiClient {
     public SubscriptionEndpoint subscriptions(ResourceFormatter<Subscription> resourceFormatter) {
         return new SubscriptionEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public SettlementEndpoint settlements() {
+        return settlements(new SimpleResourceFormatter<>());
+    }
+
+    public SettlementEndpoint settlements(ResourceFormatter<Settlement> resourceFormatter) {
+        return new SettlementEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }
