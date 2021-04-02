@@ -26,6 +26,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Subscriptions](#subscriptions)
 * [Settlements](#settlements)
 * [Captures](#captures)
+* [Profiles](#profiles)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -444,4 +445,46 @@ capture.getStatus();
 ```java
 Page<Capture> page = mollieApiClient.captures().all();
 List<Capture> captures = methods.getItems();
+```
+
+----
+
+### Profiles
+https://docs.mollie.com/reference/v2/profiles-api/create-profile
+```java
+ProfileEndpoint profiles = mollieApiClient.profiles();
+```
+
+#### Create a new profile
+```java
+Profile profile = new Profile();
+profile.setName("profile");
+
+Profile result = mollieApiClient.profiles().create(profile);
+result.getId();
+```
+
+#### Get a profile
+```java
+Profile profile = mollieApiClient.profiles().get("profileId");
+profile.getMode();
+```
+
+#### Update a profile
+```java
+Profile profile = new Profile();
+profile.setName("update profile");
+
+mollieApiClient.profiles().update("profileId", profile);
+```
+
+#### Delete a profile
+```java
+mollieApiClient.profiles().delete("profileId");
+```
+
+#### List profiles
+```java
+Page<Profile> page = mollieApiClient.profiles().all();
+List<Profile> profiles = page.getItems();
 ```

@@ -34,6 +34,8 @@ public class Links {
     private Link profile;
     private Link invoice;
     private Link shipment;
+    private Link methods;
+    private Link checkoutPreviewUrl;
 
     public Link getSelf() {
         return self;
