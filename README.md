@@ -25,6 +25,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Refunds](#refunds)
 * [Subscriptions](#subscriptions)
 * [Settlements](#settlements)
+* [Captures](#captures)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -423,4 +424,24 @@ settlement.getId();
 ```java
 Page<Settlement> page = mollieApiClient.settlements().all();
 List<Settlement> settlements = page.getItems();
+```
+
+----
+
+### Captures
+https://docs.mollie.com/reference/v2/captures-api/get-capture
+```java
+CaptureEndpoint captures = mollieApiClient.captures();
+```
+
+#### Get a capture
+```java
+Capture capture = mollieApiClient.captures().get("paymentId", "captureId");
+capture.getStatus();
+```
+
+#### Get all captures
+```java
+Page<Capture> page = mollieApiClient.captures().all();
+List<Capture> captures = methods.getItems();
 ```

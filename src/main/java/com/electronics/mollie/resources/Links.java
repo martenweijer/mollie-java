@@ -33,6 +33,7 @@ public class Links {
     private Link imageUrl;
     private Link profile;
     private Link invoice;
+    private Link shipment;
 
     public Link getSelf() {
         return self;
