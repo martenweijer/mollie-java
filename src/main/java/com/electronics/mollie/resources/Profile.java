@@ -1,12 +1,29 @@
 package com.electronics.mollie.resources;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Date;
+
 public class Profile {
+    private String resource;
+    private String id;
     private String name;
+    private String website;
     private String url;
     private String email;
     private String description;
     private String phone;
+    private String mode;
     private Integer categoryCode;
+    private String status;
+    private ProfileReview review;
+    private Date createdAt;
+    @JsonProperty("_links")
+    private Links links;
+
+    public String getId() {
+        return id;
+    }
 
     public String getName() {
         return name;

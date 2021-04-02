@@ -42,7 +42,8 @@ public class Page<T> {
                 "refunds",
                 "subscriptions",
                 "settlements",
-                "captures"
+                "captures",
+                "profiles"
         })
         private List<T> items;
 

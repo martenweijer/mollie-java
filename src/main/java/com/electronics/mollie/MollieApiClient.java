@@ -139,4 +139,12 @@ public class MollieApiClient {
     public CaptureEndpoint captures(ResourceFormatter<Capture> resourceFormatter) {
         return new CaptureEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public ProfileEndpoint profiles() {
+        return profiles(new SimpleResourceFormatter<>());
+    }
+
+    public ProfileEndpoint profiles(ResourceFormatter<Profile> resourceFormatter) {
+        return new ProfileEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }
