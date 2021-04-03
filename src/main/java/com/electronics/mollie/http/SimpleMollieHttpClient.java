@@ -45,6 +45,28 @@ public class SimpleMollieHttpClient implements MollieHttpClient {
         }
     }
 
+    public String post(String url) throws MollieHttpException {
+        try {
+            String uri = endpoint + url;
+            logger.info("Request POST {} {}", uri);
+
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder().POST(HttpRequest.BodyPublishers.noBody())
+                    .header("Authorization", "Bearer " + apiKey)
+                    .uri(new URI(uri)).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.info("Response POST {}", response.body());
+
+            if (response.statusCode() >= 300) {
+                throw new MollieResponseStatusCodeException(response);
+            }
+
+            return response.body();
+        } catch (IOException | InterruptedException | URISyntaxException e) {
+            throw new MollieHttpException(e);
+        }
+    }
+
     public String post(String url, String json) throws MollieHttpException {
         try {
             String uri = endpoint + url;
@@ -97,6 +119,29 @@ public class SimpleMollieHttpClient implements MollieHttpClient {
 
             HttpClient client = HttpClient.newBuilder().build();
             HttpRequest request = HttpRequest.newBuilder().DELETE()
+                    .header("Authorization", "Bearer " + apiKey)
+                    .uri(new URI(uri)).build();
+            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+            logger.info("Response DELETE {}", response.body());
+
+            if (response.statusCode() >= 300) {
+                throw new MollieResponseStatusCodeException(response);
+            }
+
+            return response.body();
+        } catch (IOException | InterruptedException | URISyntaxException e) {
+            throw new MollieHttpException(e);
+        }
+    }
+
+    @Override
+    public String delete(String url, String json) throws MollieHttpException {
+        try {
+            String uri = endpoint + url;
+            logger.info("Request DELETE {}", uri);
+
+            HttpClient client = HttpClient.newBuilder().build();
+            HttpRequest request = HttpRequest.newBuilder().method("DELETE", HttpRequest.BodyPublishers.ofString(json))
                     .header("Authorization", "Bearer " + apiKey)
                     .uri(new URI(uri)).build();
             HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());

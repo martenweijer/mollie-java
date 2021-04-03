@@ -130,4 +130,63 @@ public class ChargebackEndpointTest {
         MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
         assertThrows(MollieException.class, () -> mollieApiClient.chargebacks().all("foo"));
     }
+
+    @Test
+    void bySettlement() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.get(anyString())).thenReturn("{\n" +
+                "    \"count\": 3,\n" +
+                "    \"_embedded\": {\n" +
+                "        \"chargebacks\": [\n" +
+                "            {\n" +
+                "                \"resource\": \"chargeback\",\n" +
+                "                \"id\": \"chb_n9z0tp\",\n" +
+                "                \"amount\": {\n" +
+                "                    \"value\": \"43.38\",\n" +
+                "                    \"currency\": \"USD\"\n" +
+                "                },\n" +
+                "                \"settlementAmount\": {\n" +
+                "                    \"value\": \"-37.14\",\n" +
+                "                    \"currency\": \"EUR\"\n" +
+                "                },\n" +
+                "                \"createdAt\": \"2018-03-14T17:00:52.0Z\",\n" +
+                "                \"reversedAt\": null\n," +
+                "                \"paymentId\": \"tr_WDqYK6vllg\",\n" +
+                "                \"settlementId\": \"stl_jDk30akdN\",\n" +
+                "                \"_links\": {\n" +
+                "                     \"self\": {\n" +
+                "                        \"href\": \"https://api.mollie.com/v2/payments/tr_WDqYK6vllg/chargebacks/chb_n9z0tp\",\n" +
+                "                        \"type\": \"application/hal+json\"\n" +
+                "                     },\n" +
+                "                     \"payment\": {\n" +
+                "                        \"href\": \"https://api.mollie.com/v2/payments/tr_WDqYK6vllg\",\n" +
+                "                        \"type\": \"application/hal+json\"\n" +
+                "                     },\n" +
+                "                     \"settlement\": {\n" +
+                "                         \"href\": \"https://api.mollie.com/v2/settlements/stl_jDk30akdN\",\n" +
+                "                         \"type\": \"application/hal+json\"\n" +
+                "                     }\n" +
+                "                }\n" +
+                "            }\n" +
+                "        ]\n" +
+                "    },\n" +
+                "    \"_links\": {\n" +
+                "         \"documentation\": {\n" +
+                "            \"href\": \"https://docs.mollie.com/reference/v2/settlements-api/list-settlement-chargebacks\",\n" +
+                "            \"type\": \"text/html\"\n" +
+                "         },\n" +
+                "         \"self\": {\n" +
+                "            \"href\": \"https://api.mollie.com/v2/settlements/stl_jDk30akdN/chargebacks\",\n" +
+                "            \"type\": \"application/hal+json\"\n" +
+                "         },\n" +
+                "         \"previous\": null,\n" +
+                "         \"next\": null\n" +
+                "    }\n" +
+                "}");
+
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
+        Page<Chargeback> chargebacks = mollieApiClient.chargebacks().bySettlement("settlementId");
+        assertEquals(3, chargebacks.getCount());
+        assertEquals(Chargeback.class, chargebacks.getItems().get(0).getClass());
+    }
 }

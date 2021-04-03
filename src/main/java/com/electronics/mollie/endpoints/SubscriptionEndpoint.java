@@ -34,6 +34,15 @@ public class SubscriptionEndpoint {
         return resourceFormatter.fromJson(Subscription.class, json);
     }
 
+    public Subscription update(String customerId, String subscriptionId, Subscription subscription) throws MollieException {
+        return update(customerId, subscriptionId, subscription, new QueryMap());
+    }
+
+    public Subscription update(String customerId, String subscriptionId,Subscription subscription, QueryMap queryMap) throws MollieException {
+        String json = mollieHttpClient.patch("/customers/"+ customerId +"/subscriptions/"+ subscriptionId + queryMap.toQueryUrl(), resourceFormatter.toJson(subscription));
+        return resourceFormatter.fromJson(Subscription.class, json);
+    }
+
     public Subscription cancel(String customerId, String subscriptionId) throws MollieException {
         return cancel(customerId, subscriptionId, new QueryMap());
     }

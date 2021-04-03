@@ -33,4 +33,13 @@ public class ChargebackEndpoint {
         String json = mollieHttpClient.get("/payments/"+ paymentId +"/chargebacks"+ queryMap.toQueryUrl());
         return resourceFormatter.fromJsonCollection(Chargeback.class, json);
     }
+
+    public Page<Chargeback> bySettlement(String settlementId) throws MollieException {
+        return bySettlement(settlementId, new QueryMap());
+    }
+
+    public Page<Chargeback> bySettlement(String settlementId, QueryMap queryMap) throws MollieException {
+        String json = mollieHttpClient.get("/settlements/"+ settlementId +"/chargebacks"+ queryMap.toQueryUrl());
+        return resourceFormatter.fromJsonCollection(Chargeback.class, json);
+    }
 }

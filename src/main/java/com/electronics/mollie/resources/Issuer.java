@@ -2,17 +2,13 @@ package com.electronics.mollie.resources;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import java.util.List;
-
-public class Method {
+public class Issuer {
     private String resource;
     private String id;
     private String description;
-    private Amount minimumAmount;
-    private Amount maximumAmount;
-    private Image image;
     private String status;
-    private List<Pricing> pricing;
+    private Image image;
+    private Contractor contractor;
     @JsonProperty("_links")
     private Links links;
 
@@ -40,20 +36,12 @@ public class Method {
         this.description = description;
     }
 
-    public Amount getMinimumAmount() {
-        return minimumAmount;
+    public String getStatus() {
+        return status;
     }
 
-    public void setMinimumAmount(Amount minimumAmount) {
-        this.minimumAmount = minimumAmount;
-    }
-
-    public Amount getMaximumAmount() {
-        return maximumAmount;
-    }
-
-    public void setMaximumAmount(Amount maximumAmount) {
-        this.maximumAmount = maximumAmount;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Image getImage() {
@@ -64,20 +52,12 @@ public class Method {
         this.image = image;
     }
 
-    public String getStatus() {
-        return status;
+    public Contractor getContractor() {
+        return contractor;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public List<Pricing> getPricing() {
-        return pricing;
-    }
-
-    public void setPricing(List<Pricing> pricing) {
-        this.pricing = pricing;
+    public void setContractor(Contractor contractor) {
+        this.contractor = contractor;
     }
 
     public Links getLinks() {

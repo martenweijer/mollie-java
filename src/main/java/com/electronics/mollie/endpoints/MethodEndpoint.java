@@ -25,6 +25,23 @@ public class MethodEndpoint {
         return resourceFormatter.fromJson(Method.class, json);
     }
 
+    public Method enable(String profileId, String methodId) throws MollieException {
+        return enable(profileId, methodId, new QueryMap());
+    }
+
+    public Method enable(String profileId, String methodId, QueryMap queryMap) throws MollieException {
+        String json = mollieHttpClient.post("/profiles/"+ profileId +"/methods/"+ methodId + queryMap.toQueryUrl());
+        return resourceFormatter.fromJson(Method.class, json);
+    }
+
+    public void disable(String profileId, String methodId) throws MollieException {
+        disable(profileId, methodId, new QueryMap());
+    }
+
+    public void disable(String profileId, String methodId, QueryMap queryMap) throws MollieException {
+        mollieHttpClient.delete("/profiles/"+ profileId +"/methods/"+ methodId + queryMap.toQueryUrl());
+    }
+
     public Page<Method> all() throws MollieException {
         return all(new QueryMap());
     }

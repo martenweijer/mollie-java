@@ -32,6 +32,53 @@ public class MethodEndpointTest {
     }
 
     @Test
+    void enableMethod() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.post(anyString())).thenReturn("{\n" +
+                "     \"resource\": \"method\",\n" +
+                "     \"id\": \"ideal\",\n" +
+                "     \"description\": \"iDEAL\",\n" +
+                "     \"minimumAmount\": {\n" +
+                "         \"value\": \"0.01\",\n" +
+                "         \"currency\": \"EUR\"\n" +
+                "     },\n" +
+                "     \"maximumAmount\": {\n" +
+                "         \"value\": \"50000.00\",\n" +
+                "         \"currency\": \"EUR\"\n" +
+                "     },\n" +
+                "     \"image\": {\n" +
+                "         \"size1x\": \"https://www.mollie.com/external/icons/payment-methods/ideal.png\",\n" +
+                "         \"size2x\": \"https://www.mollie.com/external/icons/payment-methods/ideal%402x.png\",\n" +
+                "         \"svg\": \"https://www.mollie.com/external/icons/payment-methods/ideal.svg\"\n" +
+                "     },\n" +
+                "     \"status\": \"activated\",\n" +
+                "     \"_links\": {\n" +
+                "         \"self\": {\n" +
+                "             \"href\": \"https://api.mollie.com/v2/methods/ideal\",\n" +
+                "             \"type\": \"application/hal+json\"\n" +
+                "         },\n" +
+                "         \"documentation\": {\n" +
+                "             \"href\": \"https://docs.mollie.com/reference/v2/profiles-api/enable-method\",\n" +
+                "             \"type\": \"text/html\"\n" +
+                "         }\n" +
+                "     }\n" +
+                " }");
+
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
+        Method method = mollieApiClient.methods().enable("profileId", "ideal");
+        assertEquals("ideal", method.getId());
+    }
+
+    @Test
+    void disableMethod() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.delete(anyString())).thenReturn("");
+
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
+        mollieApiClient.methods().disable("foo", "bar");
+    }
+
+    @Test
     void allMethod() throws MollieException {
         MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
         when(mollieHttpClient.get(anyString())).thenReturn("{\"_embedded\":{\"methods\":[{\"resource\":\"method\",\"id\":\"ideal\",\"description\":\"iDEAL\",\"minimumAmount\":{\"value\":\"0.01\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"50000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/ideal.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/ideal%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/ideal.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/ideal\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"creditcard\",\"description\":\"Credit card\",\"minimumAmount\":{\"value\":\"0.01\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"2000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/creditcard.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/creditcard%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/creditcard.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/creditcard\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"paypal\",\"description\":\"PayPal\",\"minimumAmount\":{\"value\":\"0.01\",\"currency\":\"EUR\"},\"maximumAmount\":null,\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/paypal.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/paypal%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/paypal.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/paypal\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"banktransfer\",\"description\":\"Bank transfer\",\"minimumAmount\":{\"value\":\"0.01\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"1000000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/banktransfer.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/banktransfer%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/banktransfer.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/banktransfer\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"sofort\",\"description\":\"SOFORT Banking\",\"minimumAmount\":{\"value\":\"0.10\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"50000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/sofort.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/sofort%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/sofort.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/sofort\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"bancontact\",\"description\":\"Bancontact\",\"minimumAmount\":{\"value\":\"0.02\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"50000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/bancontact.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/bancontact%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/bancontact.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/bancontact\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"eps\",\"description\":\"eps\",\"minimumAmount\":{\"value\":\"1.00\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"50000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/eps.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/eps%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/eps.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/eps\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"giropay\",\"description\":\"Giropay\",\"minimumAmount\":{\"value\":\"1.00\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"10000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/giropay.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/giropay%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/giropay.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/giropay\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"przelewy24\",\"description\":\"Przelewy24\",\"minimumAmount\":{\"value\":\"0.01\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"12815.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/przelewy24.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/przelewy24%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/przelewy24.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/przelewy24\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"kbc\",\"description\":\"KBC/CBC Payment Button\",\"minimumAmount\":{\"value\":\"0.01\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"50000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/kbc.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/kbc%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/kbc.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/kbc\",\"type\":\"application/hal+json\"}}},{\"resource\":\"method\",\"id\":\"belfius\",\"description\":\"Belfius Pay Button\",\"minimumAmount\":{\"value\":\"0.01\",\"currency\":\"EUR\"},\"maximumAmount\":{\"value\":\"50000.00\",\"currency\":\"EUR\"},\"image\":{\"size1x\":\"https://www.mollie.com/external/icons/payment-methods/belfius.png\",\"size2x\":\"https://www.mollie.com/external/icons/payment-methods/belfius%402x.png\",\"svg\":\"https://www.mollie.com/external/icons/payment-methods/belfius.svg\"},\"status\":\"pending-boarding\",\"_links\":{\"self\":{\"href\":\"https://api.mollie.com/v2/methods/belfius\",\"type\":\"application/hal+json\"}}}]},\"count\":11,\"_links\":{\"documentation\":{\"href\":\"https://docs.mollie.com/reference/v2/methods-api/list-methods\",\"type\":\"text/html\"},\"self\":{\"href\":\"https://api.mollie.com/v2/methods\",\"type\":\"application/hal+json\"}}}");

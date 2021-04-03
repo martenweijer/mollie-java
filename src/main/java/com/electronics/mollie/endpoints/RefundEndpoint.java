@@ -34,6 +34,15 @@ public class RefundEndpoint {
         return resourceFormatter.fromJson(Refund.class, json);
     }
 
+    public Refund createByOrder(String orderId, Refund refund) throws MollieException {
+        return createByOrder(orderId, refund, new QueryMap());
+    }
+
+    public Refund createByOrder(String orderId, Refund refund, QueryMap queryMap) throws MollieException {
+        String json = mollieHttpClient.post("/orders/"+ orderId +"/refunds"+ queryMap.toQueryUrl(), resourceFormatter.toJson(refund));
+        return resourceFormatter.fromJson(Refund.class, json);
+    }
+
     public void cancel(String paymentId, String refundId) throws MollieException {
         cancel(paymentId, refundId, new QueryMap());
     }
@@ -51,12 +60,30 @@ public class RefundEndpoint {
         return resourceFormatter.fromJsonCollection(Refund.class, json);
     }
 
-    public Page<Refund> all(String paymentId) throws MollieException {
-        return all(paymentId, new QueryMap());
+    public Page<Refund> bySettlement(String settlementId) throws MollieException {
+        return bySettlement(settlementId, new QueryMap());
     }
 
-    public Page<Refund> all(String paymentId, QueryMap queryMap) throws MollieException {
+    public Page<Refund> bySettlement(String settlementId, QueryMap queryMap) throws MollieException {
+        String json = mollieHttpClient.get("/settlements/"+ settlementId +"/refunds"+ queryMap.toQueryUrl());
+        return resourceFormatter.fromJsonCollection(Refund.class, json);
+    }
+
+    public Page<Refund> byPayment(String paymentId) throws MollieException {
+        return byPayment(paymentId, new QueryMap());
+    }
+
+    public Page<Refund> byPayment(String paymentId, QueryMap queryMap) throws MollieException {
         String json = mollieHttpClient.get("/payments/"+ paymentId +"/refunds"+ queryMap.toQueryUrl());
+        return resourceFormatter.fromJsonCollection(Refund.class, json);
+    }
+
+    public Page<Refund> byOrder(String orderId) throws MollieException {
+        return byOrder(orderId, new QueryMap());
+    }
+
+    public Page<Refund> byOrder(String orderId, QueryMap queryMap) throws MollieException {
+        String json = mollieHttpClient.get("/orders/"+ orderId +"/refunds"+ queryMap.toQueryUrl());
         return resourceFormatter.fromJsonCollection(Refund.class, json);
     }
 }
