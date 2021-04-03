@@ -27,6 +27,7 @@ MollieApiClient mollieApiClient = new MollieApiClient("MOLLIE_API_KEY");
 * [Settlements](#settlements)
 * [Captures](#captures)
 * [Profiles](#profiles)
+* [Issuer](#issuer)
 
 ### Payments
 https://docs.mollie.com/reference/v2/payments-api/create-payment
@@ -45,11 +46,44 @@ Payment result = mollieApiClient.payments().create(payment);
 result.getId();
 ```
 
+#### Create a new payment by order
+```java
+Payment payment = new Payment();
+payment.setDescription("description");
+payment.setRedirectUrl("http://");
+payment.setAmount(new Amount("100.00", "EUR"));
+
+Payment result = mollieApiClient.payments().createByOrder("orderId", payment);
+result.getId();
+```
+
+#### Create a new payment by customer
+```java
+Payment payment = new Payment();
+payment.setDescription("description");
+payment.setRedirectUrl("http://");
+payment.setAmount(new Amount("100.00", "EUR"));
+
+Payment result = mollieApiClient.payments().createByCustomer("customerId", payment);
+result.getId();
+```
+
 #### Get a payment
 ```java
 Payment payment = mollieApiClient.payments().get("tr_MOLLIE_ID");
 payment.getDescription();
 payment.getRedirectUrl();
+```
+
+#### Update a payment
+```java
+Payment payment = new Payment();
+payment.setDescription("description");
+payment.setRedirectUrl("http://");
+payment.setAmount(new Amount("100.00", "EUR"));
+
+Payment result = mollieApiClient.payments().update("paymentId", payment);
+result.getId();
 ```
 
 #### Cancel a payment
@@ -67,6 +101,24 @@ Page<Payment> payments = mollieApiClient.payments().page(queryMap);
 List<Payment> items = payments.getItems();
 ```
 
+#### List payments by settlement
+```java
+Page<Payment> payments = mollieApiClient.payments().bySettlement("settlementId");
+List<Payment> items = payments.getItems();
+```
+
+#### List payments by customer
+```java
+Page<Payment> payments = mollieApiClient.payments().byCustomer("customerId");
+List<Payment> items = payments.getItems();
+```
+
+#### List payments by subscription
+```java
+Page<Payment> payments = mollieApiClient.payments().bySubscription("customerId", "subscriptionId");
+List<Payment> items = payments.getItems();
+```
+
 ----
 
 ### Payment Methods
@@ -80,6 +132,18 @@ MethodEndpoint methods = mollieApiClient.methods();
 Method method = mollieApiClient.methods().get("ideal");
 method.getDescription();
 method.getStatus();
+```
+
+#### Enable a payment method
+```java
+Method method = mollieApiClient.methods().enable("profileId", "ideal");
+method.getDescription();
+method.getStatus();
+```
+
+#### Disable a payment method
+```java
+mollieApiClient.methods().disable("profileId", "ideal");
 ```
 
 #### Get all payment methods
@@ -151,6 +215,12 @@ chargeback.getAmount();
 #### List chargebacks
 ```java
 Page<Chargeback> chargebacks = mollieApiClient.chargebacks().all("paymentId");
+List<Chargeback> items = chargebacks.getItems();
+```
+
+#### List chargebacks by settlement
+```java
+Page<Chargeback> chargebacks = mollieApiClient.chargebacks().bySettlement("settlementId");
 List<Chargeback> items = chargebacks.getItems();
 ```
 
@@ -335,6 +405,21 @@ mollieApiClient.orders().update("orderId", order);
 mollieApiClient.orders().delete("orderId");
 ```
 
+#### Cancel order lines
+```java
+List<OrderLine> lines = new ArrayList<>();
+OrderLine line1 = new OrderLine();
+line1.setId("id");
+lines.add(line1);
+OrderLine line2 = new OrderLine();
+line2.setId("id");
+lines.add(line2);
+Order order = new Order();
+order.setLines(lines);
+
+mollieApiClient.orders().cancelLines("orderId", order);
+```
+
 #### List orders
 ```java
 Page<Order> page = mollieApiClient.orders().all();
@@ -357,6 +442,14 @@ Refund result = mollieApiClient.refunds().create("paymentId", refund);
 result.getId();
 ```
 
+#### Create a new refund by order
+```java
+Refund refund = new Refund();
+
+Refund result = mollieApiClient.refunds().createByOrder("orderId", refund);
+result.getId();
+```
+
 #### Get a refund
 ```java
 Refund refund = mollieApiClient.refunds().get("paymentId", "refundId");
@@ -374,6 +467,24 @@ Page<Refund> page = mollieApiClient.refunds().all();
 List<Refund> orders = page.getItems();
 ```
 
+#### List refunds by settlement
+```java
+Page<Refund> page = mollieApiClient.refunds().bySettlement("settlementId");
+List<Refund> orders = page.getItems();
+```
+
+#### List refunds by payment
+```java
+Page<Refund> page = mollieApiClient.refunds().byPayment("refundId");
+List<Refund> orders = page.getItems();
+```
+
+#### List refunds by order
+```java
+Page<Refund> page = mollieApiClient.refunds().byOrder("orderId");
+List<Refund> orders = page.getItems();
+```
+
 ----
 
 ### Subscriptions
@@ -387,6 +498,14 @@ SubscriptionEndpoint subscriptions = mollieApiClient.subscriptions();
 Subscription subscription = new Subscription();
 
 Subscription result = mollieApiClient.subscriptions().create("customerId", subscription);
+result.getId();
+```
+
+#### Update a subscription
+```java
+Subscription subscription = new Subscription();
+
+Subscription result = mollieApiClient.subscriptions().update("customerId", "subscriptionId", subscription);
 result.getId();
 ```
 
@@ -441,10 +560,16 @@ Capture capture = mollieApiClient.captures().get("paymentId", "captureId");
 capture.getStatus();
 ```
 
-#### Get all captures
+#### List captures
 ```java
-Page<Capture> page = mollieApiClient.captures().all();
-List<Capture> captures = methods.getItems();
+Page<Capture> page = mollieApiClient.captures().all("paymentId");
+List<Capture> captures = page.getItems();
+```
+
+#### List captures by settlement
+```java
+Page<Capture> page = mollieApiClient.captures().bySettlement("settlementId");
+List<Capture> captures = page.getItems();
 ```
 
 ----
@@ -487,4 +612,32 @@ mollieApiClient.profiles().delete("profileId");
 ```java
 Page<Profile> page = mollieApiClient.profiles().all();
 List<Profile> profiles = page.getItems();
+```
+
+----
+
+### Issuer
+https://docs.mollie.com/reference/v2/profiles-api/enable-voucher-issuer
+```java
+IssuerEndpoint issuer = mollieApiClient.issuer();
+```
+
+#### Enable giftcard
+```java
+Issuer issuer = mollieApiClient.issuer().enableGiftcard("pofileId", "issuerId");
+```
+
+#### Disable giftcard
+```java
+mollieApiClient.issuer().disableGiftcard("pofileId", "issuerId");
+```
+
+#### Enable voucher
+```java
+Issuer issuer = mollieApiClient.issuer().enableVoucher("pofileId", "issuerId");
+```
+
+#### Disable voucher
+```java
+mollieApiClient.issuer().disableVoucher("pofileId", "issuerId");
 ```

@@ -119,6 +119,57 @@ public class SubscriptionEndpointTest {
     }
 
     @Test
+    void updateSubscription() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.patch(anyString(), anyString())).thenReturn("{\n" +
+                "     \"resource\": \"subscription\",\n" +
+                "     \"id\": \"sub_8EjeBVgtEn\",\n" +
+                "     \"customerId\": \"cst_5a2pPrwaWy\",\n" +
+                "     \"mode\": \"live\",\n" +
+                "     \"createdAt\": \"2018-07-10T11:22:53+00:00\",\n" +
+                "     \"status\": \"active\",\n" +
+                "     \"amount\": {\n" +
+                "         \"value\": \"10.00\",\n" +
+                "         \"currency\": \"EUR\"\n" +
+                "     },\n" +
+                "     \"description\": \"Mollie Recurring subscription\",\n" +
+                "     \"method\": null,\n" +
+                "     \"times\": 42,\n" +
+                "     \"timesRemaining\": 38,\n" +
+                "     \"interval\": \"15 days\",\n" +
+                "     \"startDate\": \"2018-12-12\",\n" +
+                "     \"nextPaymentDate\": \"2018-12-12\",\n" +
+                "     \"mandateId\": \"mdt_84HdeDr5\",\n" +
+                "     \"webhookUrl\": \"https://example.org/webhook\",\n" +
+                "     \"_links\": {\n" +
+                "         \"self\": {\n" +
+                "             \"href\": \"https://api.mollie.com/v2/customers/cst_5a2pPrwaWy/subscriptions/sub_8EjeBVgtEn\",\n" +
+                "             \"type\": \"application/hal+json\"\n" +
+                "         },\n" +
+                "         \"customer\": {\n" +
+                "             \"href\": \"https://api.mollie.com/v2/customers/cst_5a2pPrwaWy\",\n" +
+                "             \"type\": \"application/hal+json\"\n" +
+                "         },\n" +
+                "        \"profile\": {\n" +
+                "            \"href\": \"https://api.mollie.com/v2/profiles/pfl_URR55HPMGx\",\n" +
+                "            \"type\": \"application/hal+json\"\n" +
+                "        },\n" +
+                "         \"documentation\": {\n" +
+                "             \"href\": \"https://docs.mollie.com/reference/v2/subscriptions-api/update-subscription\",\n" +
+                "             \"type\": \"text/html\"\n" +
+                "         }\n" +
+                "     }\n" +
+                " }");
+
+        Subscription subscription = new Subscription();
+
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
+        Subscription result = mollieApiClient.subscriptions().update("foo", "subscriptionId", subscription);
+        Assertions.assertNotNull(result);
+        Assertions.assertEquals("sub_8EjeBVgtEn", result.getId());
+    }
+
+    @Test
     void cancelSubscription() throws MollieException {
         MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
         when(mollieHttpClient.delete(anyString())).thenReturn("{\n" +

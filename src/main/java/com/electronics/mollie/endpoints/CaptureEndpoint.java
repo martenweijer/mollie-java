@@ -33,4 +33,13 @@ public class CaptureEndpoint {
         String json = mollieHttpClient.get("/payments/"+ paymentId +"/captures"+ queryMap.toQueryUrl());
         return resourceFormatter.fromJsonCollection(Capture.class, json);
     }
+
+    public Page<Capture> bySettlement(String settlementId) throws MollieException {
+        return bySettlement(settlementId, new QueryMap());
+    }
+
+    public Page<Capture> bySettlement(String settlementId, QueryMap queryMap) throws MollieException {
+        String json = mollieHttpClient.get("/settlements/"+ settlementId +"/captures"+ queryMap.toQueryUrl());
+        return resourceFormatter.fromJsonCollection(Capture.class, json);
+    }
 }

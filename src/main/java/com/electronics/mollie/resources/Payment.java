@@ -84,12 +84,12 @@ public class Payment {
         this.status = status;
     }
 
-    public Boolean getIsCancelable() {
+    public Boolean getCancelable() {
         return isCancelable;
     }
 
-    public void setIsCancelable(Boolean isCancelable) {
-        this.isCancelable = isCancelable;
+    public void setCancelable(Boolean cancelable) {
+        isCancelable = cancelable;
     }
 
     public Date getAuthorizedAt() {

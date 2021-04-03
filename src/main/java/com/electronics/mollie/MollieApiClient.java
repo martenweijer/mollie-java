@@ -147,4 +147,12 @@ public class MollieApiClient {
     public ProfileEndpoint profiles(ResourceFormatter<Profile> resourceFormatter) {
         return new ProfileEndpoint(mollieHttpClient, resourceFormatter);
     }
+
+    public IssuerEndpoint issuer() {
+        return issuer(new SimpleResourceFormatter<>());
+    }
+
+    public IssuerEndpoint issuer(ResourceFormatter<Issuer> resourceFormatter) {
+        return new IssuerEndpoint(mollieHttpClient, resourceFormatter);
+    }
 }

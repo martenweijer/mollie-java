@@ -160,4 +160,20 @@ public class Links {
     public Link getProfile() {
         return profile;
     }
+
+    public Link getInvoice() {
+        return invoice;
+    }
+
+    public Link getShipment() {
+        return shipment;
+    }
+
+    public Link getMethods() {
+        return methods;
+    }
+
+    public Link getCheckoutPreviewUrl() {
+        return checkoutPreviewUrl;
+    }
 }

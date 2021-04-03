@@ -4,9 +4,13 @@ import com.electronics.mollie.MollieApiClient;
 import com.electronics.mollie.exceptions.MollieException;
 import com.electronics.mollie.http.MollieHttpClient;
 import com.electronics.mollie.resources.Order;
+import com.electronics.mollie.resources.OrderLine;
 import com.electronics.mollie.resources.Page;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -908,5 +912,25 @@ public class OrderEndpointTest {
         Page<Order> page = mollieApiClient.orders().all();
         Assertions.assertEquals(3, page.getCount());
         assertEquals(Order.class, page.getItems().get(0).getClass());
+    }
+
+    @Test
+    void cancelLines() throws MollieException {
+        MollieHttpClient mollieHttpClient = mock(MollieHttpClient.class);
+        when(mollieHttpClient.delete(anyString())).thenReturn("");
+
+        MollieApiClient mollieApiClient = new MollieApiClient(mollieHttpClient);
+
+        Order order = new Order();
+        List<OrderLine> lines = new ArrayList<>();
+        OrderLine line1 = new OrderLine();
+        line1.setId("foo");
+        lines.add(line1);
+        OrderLine line2 = new OrderLine();
+        line2.setId("bar");
+        lines.add(line2);
+        order.setLines(lines);
+
+        mollieApiClient.orders().cancelLines("orderId", order);
     }
 }

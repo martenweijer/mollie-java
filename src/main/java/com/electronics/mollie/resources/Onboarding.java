@@ -19,28 +19,56 @@ public class Onboarding {
         return resource;
     }
 
+    public void setResource(String resource) {
+        this.resource = resource;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Date getSignedUpAt() {
         return signedUpAt;
     }
 
+    public void setSignedUpAt(Date signedUpAt) {
+        this.signedUpAt = signedUpAt;
+    }
+
     public String getStatus() {
         return status;
     }
 
-    public Boolean isCanReceivePayments() {
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Boolean getCanReceivePayments() {
         return canReceivePayments;
     }
 
-    public Boolean isCanReceiveSettlements() {
+    public void setCanReceivePayments(Boolean canReceivePayments) {
+        this.canReceivePayments = canReceivePayments;
+    }
+
+    public Boolean getCanReceiveSettlements() {
         return canReceiveSettlements;
+    }
+
+    public void setCanReceiveSettlements(Boolean canReceiveSettlements) {
+        this.canReceiveSettlements = canReceiveSettlements;
     }
 
     public Links getLinks() {
         return links;
+    }
+
+    public void setLinks(Links links) {
+        this.links = links;
     }
 
     public Organization getOrganization() {

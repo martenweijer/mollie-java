@@ -14,7 +14,6 @@ public class Address {
     private String phone;
     private String streetAdditional;
 
-
     public String getStreetAndNumber() {
         return streetAndNumber;
     }
@@ -55,15 +54,59 @@ public class Address {
         this.country = country;
     }
 
+    public String getOrganizationName() {
+        return organizationName;
+    }
+
+    public void setOrganizationName(String organizationName) {
+        this.organizationName = organizationName;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getGivenName() {
+        return givenName;
+    }
+
     public void setGivenName(String givenName) {
         this.givenName = givenName;
+    }
+
+    public String getFamilyName() {
+        return familyName;
     }
 
     public void setFamilyName(String familyName) {
         this.familyName = familyName;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getStreetAdditional() {
+        return streetAdditional;
+    }
+
+    public void setStreetAdditional(String streetAdditional) {
+        this.streetAdditional = streetAdditional;
     }
 }
